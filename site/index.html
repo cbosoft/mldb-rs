@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MLDB</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Experiments</h1>
+    <table id="overview_table">
+    </table>
+    <script type="text/javascript" src="common.js"></script>
+    <script type="text/javascript">
+        function get_experiments() {
+            var e = document.getElementById("overview_table");
+            e.innerHTML = "loading...";
+            send_data({command: "get_overview"})
+                .then(response => response.json())
+                .then(fill_table);
+        }
+
+        function fill_table(data) {
+            var e = document.getElementById("overview_table");
+            var s = "<tr><th>Exp. ID</th><th>Status</th></tr>";
+            for (i in data) {
+                let expid = data[i][0];
+                let status = data[i][1];
+                s += "<tr><td>" + expid + "</td><td>" + status + "</td></tr>";
+            }
+            e.innerHTML = s;
+        }
+
+        get_experiments();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MLDB</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="item">
+            <h1>Metrics</h1><canvas id="metrics_chart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="common.js"></script>
+    <script>
+        Chart.defaults.datasets.scatter.showLine = true
+        function init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const groups = urlParams.getAll('group');
+            const expids = urlParams.getAll('expid');
+            if (groups.length) {
+                // read groups, add expid to expids
+                get_groups(groups);
+            }
+            else {
+                // expids are all we need
+                get_experiments(expids);
+            }
+        }
+        function get_groups(groups) {
+            send_data({command: "get_groups", groups: groups})
+                .then(response => response.json())
+                .then(show_data);
+        }
+        function get_experiments(expids) {
+            send_data({command: "get_experiments", expids: expids})
+                .then(response => response.json())
+                .then(show_data);
+        }
+
+        var cached_data = {};
+        function show_data(data) {
+            cached_data = data;
+            reshow_data();
+        }
+
+        function reshow_data() {
+            console.log(cached_data);
+            plot_metrics();
+        }
+
+        function plot_metrics() {
+            var data = {labels: [], datasets: []};
+            for (i in cached_data) {
+                var exp = cached_data[i];
+                var dataset = {
+                    data: [],
+                    label: exp.expid,
+                };
+                for (mname in exp.metrics) {
+                    mvalue = exp.metrics[mname];
+                    if (!data.labels.includes(mname)) {
+                        data.labels.push(mname);
+                    }
+                    dataset.data.push(mvalue);
+                }
+                data.datasets.push(dataset);
+            }
+
+            const metrics_ctx = document.getElementById('metrics_chart');
+            new Chart(metrics_ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                },
+            });
+        }
+        init();
+    </script>
+</body>
+
+</html>
