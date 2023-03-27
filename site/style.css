@@ -2,7 +2,50 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+body {
+  background-color: #dfdfdf;
+}
+
 .container {
     display: flex;
     flex-direction: column;
 }
+
+.graph-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.item {
+  border: 1em solid white;
+  border-radius: 1em;
+  margin: 2em;;
+  padding: 1em;
+  padding-top: 0px;
+  background-color: white;
+}
+
+.table-item {
+  border-radius: 0.5em;
+  padding: 0.3em;
+  color: gray;
+}
+
+.table-item b {
+  color: black;
+}
+
+.selected {
+  background-color: #dfdfef;
+}
+
+table {
+  max-width: 80vw;
+  width: 80vw;
+}
+
+canvas {
+  min-width: 70vw;
+}
+
