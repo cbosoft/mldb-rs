@@ -88,6 +88,13 @@ function plot_losses() {
   new Chart(e, {
     type: 'scatter',
     data: data,
+    options: {
+      scales: {
+        y: {
+          type: 'logarithmic'
+        }
+      }
+    }
   });
 }
 
