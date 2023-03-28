@@ -1,4 +1,5 @@
 Chart.defaults.datasets.scatter.showLine = true;
+var canvases = {};
 
 
 function init() {
@@ -34,6 +35,7 @@ function show_data(data) {
   cached_data = data;
   init_settings();
   reshow_data();
+  refresh_in_a_bit();
 }
 
 
@@ -88,7 +90,10 @@ function plot_losses() {
   var data = { datasets: [] };
   var has_data = false;
   for (exp of cached_data) {
-    for ([kind, lossdata] of Object.entries(exp.losses)) {
+    kinds = Object.keys(exp.losses);
+    kinds.sort();
+    for (kind of kinds) {
+      var lossdata = exp.losses[kind];
       var dataset = {
         data: [],
         label: exp.expid + "/" + kind
@@ -102,38 +107,39 @@ function plot_losses() {
     }
   }
 
-  console.log(data);
-
   var e = document.getElementById('loss_item');
   e.style.display = has_data ? '' : 'none';
   e = document.getElementById('loss_chart');
-  new Chart(e, {
-    type: 'scatter',
-    data: data,
-    options: {
-      scales: {
-        y: {
-          type: 'logarithmic'
-        }
-      },
-      responsive: true,
-    }
-  });
+
+  if (!canvases.hasOwnProperty('loss_chart')) {
+    canvases['loss_chart'] = new Chart(e, {
+      type: 'scatter',
+      data: [],
+      options: {
+        scales: {
+          y: {
+            type: 'logarithmic'
+          }
+        },
+        responsive: true,
+        animation: false,
+      }
+    });
+  }
+
+  canvases['loss_chart'].data = data;
+  canvases['loss_chart'].update();
 }
 
 
 function plot_metrics() {
-  const error_chart = document.getElementById('error_chart');
-  const error_container = document.getElementById('errors_item');
-  plot_metrics_by_pattern(error_chart, error_container, new RegExp('[E]'));
-
-  const correlation_chart = document.getElementById('correlation_chart');
-  const correlation_container = document.getElementById('correlations_item');
-  plot_metrics_by_pattern(correlation_chart, correlation_container, new RegExp('^[^E]+$'));
+  plot_metrics_by_pattern('error_chart', 'errors_item', new RegExp('[E]'));
+  plot_metrics_by_pattern('correlation_chart', 'correlations_item', new RegExp('^[^E]+$'));
 }
 
 
-function plot_metrics_by_pattern(chart_ctx, chart_container, pattern) {
+function plot_metrics_by_pattern(chart_id, chart_container_id, pattern) {
+  var chart_ctx = document.getElementById(chart_id);
   var data = { labels: [], datasets: [] };
   var has_data = false;
   for (i in cached_data) {
@@ -160,18 +166,29 @@ function plot_metrics_by_pattern(chart_ctx, chart_container, pattern) {
     data.datasets.push(dataset);
   }
 
+  var chart_container = document.getElementById(chart_container_id);
   chart_container.style.display = has_data ? '' : 'none';
 
-  new Chart(chart_ctx, {
-    type: 'bar',
-    data: data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+  if (!canvases.hasOwnProperty(chart_id)) {
+    canvases[chart_id] = new Chart(chart_ctx, {
+      type: 'bar',
+      data: [],
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        responsive: true,
+        animation: false,
       },
-      responsive: true,
-    },
-  });
+    });
+  }
+
+  canvases[chart_id].data = data;
+  canvases[chart_id].update();
+}
+
+function refresh_in_a_bit() {
+  setTimeout(init, 5000);
 }
