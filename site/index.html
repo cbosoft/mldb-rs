@@ -4,64 +4,65 @@
 <head>
     <title>MLDB</title>
     <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
     <div class="container" style="align-items: center;">
-      <div class="item">
-    <h1>Experiments</h1>
-    <a href="#" onclick="compare_selected();">Compare experiments</a>
-    <div id="overview_table"></div>
-    <script type="text/javascript" src="common.js"></script>
-    <script type="text/javascript">
-        function get_experiments() {
-            var e = document.getElementById("overview_table");
-            e.innerHTML = "loading...";
-            send_data({command: "get_overview"})
-                .then(response => response.json())
-                .then(fill_table);
-        }
+        <div class="item">
+            <h1>Experiments</h1>
+            <a href="#" onclick="compare_selected();">Compare experiments</a>
+            <div id="overview_table"></div>
+            <script type="text/javascript" src="common.js"></script>
+            <script type="text/javascript">
+                function get_experiments() {
+                    var e = document.getElementById("overview_table");
+                    e.innerHTML = "loading...";
+                    send_data({ command: "get_overview" })
+                        .then(response => response.json())
+                        .then(fill_table);
+                }
 
-        function compare_selected() {
-                var selection = document.getElementsByClassName("selected");
-                var expids = [];
-                for (i in selection) {
+                function compare_selected() {
+                    var selection = document.getElementsByClassName("selected");
+                    var expids = [];
+                    for (i in selection) {
                         if (selection[i].id) {
-                    expids.push(selection[i].id);
-                              }
+                            expids.push(selection[i].id);
+                        }
+                    }
+                    if (!expids) {
+                        return;
+                    }
+                    else {
+                        window.location.href = "/compare.html?expid=" + expids.join("&expid=");
+                    }
                 }
-                if (!expids) {
-                  return;
-                }
-                else {
-                  window.location.href = "/compare.html?expid=" + expids.join("&expid=");
-                }
-        }
-        
-        function toggle_select_exp(expid) {
-                var row = document.getElementById(expid);
-                if (row.classList.contains("selected")) {
+
+                function toggle_select_exp(expid) {
+                    var row = document.getElementById(expid);
+                    if (row.classList.contains("selected")) {
                         row.classList.remove("selected");
-                }
-                else {
+                    }
+                    else {
                         row.classList.add("selected");
+                    }
                 }
-        }
 
-        function fill_table(data) {
-            var e = document.getElementById("overview_table");
-            //var s = "<tr><th>Exp. ID</th><th>Status</th></tr>";
-            var s = "";
-            for (i in data) {
-                let expid = data[i][0];
-                let status = data[i][1];
-                s += "<div class=\"table-item\" id=\"" + expid + "\" onclick=\"toggle_select_exp('" + expid + "');\"><b>" + expid + "</b>" + status + "</div>";
-            }
-            e.innerHTML = s;
-        }
+                function fill_table(data) {
+                    var e = document.getElementById("overview_table");
+                    //var s = "<tr><th>Exp. ID</th><th>Status</th></tr>";
+                    var s = "";
+                    for (i in data) {
+                        let expid = data[i][0];
+                        let status = data[i][1];
+                        s += "<div class=\"table-item\" id=\"" + expid + "\" onclick=\"toggle_select_exp('" + expid + "');\"><b>" + expid + "</b>" + status + "</div>";
+                    }
+                    e.innerHTML = s;
+                }
 
-        get_experiments();
-    </script>
+                get_experiments();
+            </script>
 </body>
 
 </html>

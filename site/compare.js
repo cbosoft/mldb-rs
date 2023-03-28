@@ -15,14 +15,14 @@ function init() {
 
 
 function get_groups(groups) {
-  send_data({command: "get_groups", groups: groups})
+  send_data({ command: "get_groups", groups: groups })
     .then(response => response.json())
     .then(show_data);
 }
 
 
 function get_experiments(expids) {
-  send_data({command: "get_experiments", expids: expids})
+  send_data({ command: "get_experiments", expids: expids })
     .then(response => response.json())
     .then(show_data);
 }
@@ -63,7 +63,7 @@ function display_details() {
 
 
 function plot_losses() {
-  var data = {datasets: []};
+  var data = { datasets: [] };
   var has_data = false;
   for (exp of cached_data) {
     for ([kind, lossdata] of Object.entries(exp.losses)) {
@@ -73,7 +73,7 @@ function plot_losses() {
       };
 
       for ([e, v] of lossdata) {
-        dataset.data.push({x: e, y: v});
+        dataset.data.push({ x: e, y: v });
         has_data = true;
       }
       data.datasets.push(dataset);
@@ -93,7 +93,8 @@ function plot_losses() {
         y: {
           type: 'logarithmic'
         }
-      }
+      },
+      responsive: true,
     }
   });
 }
@@ -111,7 +112,7 @@ function plot_metrics() {
 
 
 function plot_metrics_by_pattern(chart_ctx, chart_container, pattern) {
-  var data = {labels: [], datasets: []};
+  var data = { labels: [], datasets: [] };
   var has_data = false;
   for (i in cached_data) {
     var exp = cached_data[i];
@@ -136,7 +137,7 @@ function plot_metrics_by_pattern(chart_ctx, chart_container, pattern) {
     }
     data.datasets.push(dataset);
   }
-  
+
   chart_container.style.display = has_data ? '' : 'none';
 
   new Chart(chart_ctx, {
@@ -147,7 +148,8 @@ function plot_metrics_by_pattern(chart_ctx, chart_container, pattern) {
         y: {
           beginAtZero: true
         }
-      }
+      },
+      responsive: true,
     },
   });
 }

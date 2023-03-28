@@ -2,34 +2,35 @@
 <html>
 
 <head>
-    <title>MLDB</title>
-    <link rel="stylesheet" href="style.css">
+  <title>MLDB</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="graph-container">
-        <div class="item" id="details_item" style="display: none; min-width:
+  <div class="graph-container">
+    <div class="item" id="details_item" style="display: none; min-width:
           90vw;">
-          <h1>Details</h1><div id="details"></div>
-        </div>
-        <div class="item" id="loss_item" style="display: none;">
-          <h1>Losses</h1><canvas id="loss_chart"></canvas>
-        </div>
-        <div class="item" id="errors_item" style="display: none;">
-          <h1>Metrics (errors)</h1><canvas id="error_chart"></canvas>
-        </div>
-        <div class="item" id="correlations_item" style="display: none;">
-          <h1>Metrics (correlations)</h1><canvas id="correlation_chart"></canvas>
-        </div>
+      <h1>Details</h1>
+      <div id="details"></div>
     </div>
+    <div class="item line-chart" id="loss_item" style="display: none;">
+      <h1>Losses</h1><canvas id="loss_chart"></canvas>
+    </div>
+    <div class="item bar-chart" id="errors_item" style="display: none;">
+      <h1>Metrics (errors)</h1><canvas id="error_chart"></canvas>
+    </div>
+    <div class="item bar-chart" id="correlations_item" style="display: none;">
+      <h1>Metrics (correlations)</h1><canvas id="correlation_chart"></canvas>
+    </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="common.js"></script>
-    <script src="compare.js"></script>
-    <script>
-        init();
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="common.js"></script>
+  <script src="compare.js"></script>
+  <script>
+    init();
+  </script>
 </body>
 
 </html>
