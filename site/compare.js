@@ -50,15 +50,37 @@ function reshow_data() {
 
 
 function display_details() {
-  // TODO!
-  // var e = document.getElementById('details_item');
-  // e.style.display = '';
-  // e = document.getElementById('details');
+  var e = document.getElementById('details_item');
+  if (cached_data.length == 1) {
+    var exp = cached_data[0];
 
-  // var experiments_by_group = {};
-  // for (exp of cached_data) {
-  //   
-  // }
+    e.style.display = '';
+    e = document.getElementById('details');
+
+    document.getElementById('details-expid').innerHTML = exp.expid;
+    document.getElementById('details-status').innerHTML = exp.status;
+    if (exp.losses) {
+      document.getElementById('details-epochs').innerHTML = exp.losses.valid[exp.losses.valid.length - 1][0];
+    }
+    else {
+      document.getElementById('details-epochs').innerHTML = '';
+    }
+
+    if (exp.groups) {
+      if (exp.groups.length > 1) {
+        document.getElementById('details-groups').innerHTML = "<ul><li>" + exp.groups.join("</li><li>") + "</li></ul>";
+      }
+      else {
+        document.getElementById('details-groups').innerHTML = exp.groups[0].replace(/;/g, "; <br/>");
+      }
+    }
+    else {
+      document.getElementById('details-groups').innerHTML = '';
+    }
+  }
+  else {
+    e.style.display = 'none';
+  }
 }
 
 

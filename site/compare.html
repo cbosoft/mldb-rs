@@ -9,10 +9,28 @@
 <body>
 
   <div class="graph-container">
-    <div class="item" id="details_item" style="display: none; min-width:
-          90vw;">
+    <div class="item" id="details_item">
       <h1>Details</h1>
-      <div id="details"></div>
+      <table>
+        <tr>
+          <th>Exp. ID</th>
+          <td id="details-expid">expi</td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td id="details-status">status</td>
+        </tr>
+        <tr>
+          <th>Epochs</th>
+          <td id="details-epochs">n epochs</td>
+        </tr>
+        <tr>
+          <th>Group(s)</th>
+          <td id="details-groups">
+            groups
+          </td>
+        </tr>
+      </table>
     </div>
     <div class="item line-chart" id="loss_item" style="display: none;">
       <h1>Losses</h1><canvas id="loss_chart"></canvas>
