@@ -35,7 +35,16 @@ function show_data(data) {
   cached_data = data;
   init_settings();
   reshow_data();
-  refresh_in_a_bit();
+  var should_refresh = false;
+  for (exp of data) {
+    if (exp.status == 'TRAINING') {
+      should_refresh = true;
+    }
+  }
+
+  if (should_refresh) {
+    refresh_in_a_bit();
+  }
 }
 
 
