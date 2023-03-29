@@ -5,6 +5,9 @@
 body {
   background-color: #dfdfdf;
 }
+body.training {
+  background-color: #ffdfaf;
+}
 
 .container {
   display: flex;

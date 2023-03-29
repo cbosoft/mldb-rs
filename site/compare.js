@@ -42,6 +42,15 @@ function show_data(data) {
     }
   }
 
+  if (document.body) {
+    if (should_refresh) {
+      document.body.classList.add('training')
+    }
+    else {
+      document.body.classList.remove('training')
+    }
+  }
+
   if (should_refresh) {
     refresh_in_a_bit();
   }
