@@ -23,7 +23,7 @@ body.training {
 }
 
 .item {
-  border: 0.5em solid #dfdfdf;
+  border: 2px solid black;
   border-radius: 1em;
   /* margin: 1em; */
   padding: 0.5em;
