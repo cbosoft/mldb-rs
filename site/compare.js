@@ -91,7 +91,7 @@ function display_details() {
         document.getElementById('details-groups').innerHTML = "<ul><li>" + exp.groups.join("</li><li>") + "</li></ul>";
       }
       else {
-        document.getElementById('details-groups').innerHTML = exp.groups[0].replace(/;/g, "; <br/>");
+        document.getElementById('details-groups').innerHTML = exp.groups[0].replace(/;/g, "; ").replace(/\+/g, " + ");
       }
     }
     else {
