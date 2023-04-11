@@ -80,7 +80,12 @@ function display_details() {
     document.getElementById('details-expid').innerHTML = exp.expid;
     document.getElementById('details-status').innerHTML = exp.status;
     if (exp.losses) {
-      document.getElementById('details-epochs').innerHTML = exp.losses.valid[exp.losses.valid.length - 1][0];
+      if (exp.losses.valid) {
+        document.getElementById('details-epochs').innerHTML = exp.losses.valid[exp.losses.valid.length - 1][0];
+      }
+      else {
+        document.getElementById('details-epochs').innerHTML = exp.losses.train[exp.losses.train.length - 1][0];
+      }
     }
     else {
       document.getElementById('details-epochs').innerHTML = '';
